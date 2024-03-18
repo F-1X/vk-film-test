@@ -1,0 +1,77 @@
+basePath: /
+definitions:
+  model.Actor:
+    properties:
+      birthday:
+        type: string
+      gender:
+        type: string
+      name:
+        type: string
+    type: object
+  model.CustomDate:
+    properties:
+      time.Time:
+        type: string
+    type: object
+  model.Film:
+    properties:
+      actors:
+        items:
+          $ref: '#/definitions/model.Actor'
+        type: array
+      date:
+        $ref: '#/definitions/model.CustomDate'
+      desc:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      rate:
+        type: number
+    type: object
+  server.ErrBadRequest:
+    properties:
+      message:
+        type: string
+    type: object
+host: localhost:8001
+info:
+  contact: {}
+  title: vk film library
+  version: "1.0"
+paths:
+  /api/v1/films:
+    get:
+      consumes:
+      - application/json
+      description: Get a film by providing its name, description or actors.
+      parameters:
+      - description: Film name
+        in: query
+        name: name
+        type: string
+      - description: Film description
+        in: query
+        name: description
+        type: string
+      - description: Comma-separated list of actor names
+        in: query
+        name: actors
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Film'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.ErrBadRequest'
+      summary: Get a film by name, description or by actors
+      tags:
+      - films
+swagger: "2.0"

@@ -1,0 +1,2464 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>app: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">vk/app/errors.go (50.0%)</option>
+				
+				<option value="file1">vk/cmd/main.go (0.0%)</option>
+				
+				<option value="file2">vk/config/config.go (75.0%)</option>
+				
+				<option value="file3">vk/database/actor.go (15.8%)</option>
+				
+				<option value="file4">vk/database/auth.go (0.0%)</option>
+				
+				<option value="file5">vk/database/film.go (13.0%)</option>
+				
+				<option value="file6">vk/database/init.go (0.0%)</option>
+				
+				<option value="file7">vk/database/mock/mock.go (0.0%)</option>
+				
+				<option value="file8">vk/database/postgres.go (60.0%)</option>
+				
+				<option value="file9">vk/logger/logger.go (0.0%)</option>
+				
+				<option value="file10">vk/model/actor.go (83.3%)</option>
+				
+				<option value="file11">vk/model/film.go (14.3%)</option>
+				
+				<option value="file12">vk/model/sessions.go (0.0%)</option>
+				
+				<option value="file13">vk/server/actor.go (29.0%)</option>
+				
+				<option value="file14">vk/server/auth.go (34.5%)</option>
+				
+				<option value="file15">vk/server/film.go (0.0%)</option>
+				
+				<option value="file16">vk/server/middleware.go (3.8%)</option>
+				
+				<option value="file17">vk/server/server.go (36.5%)</option>
+				
+				<option value="file18">vk/server/sessions.go (100.0%)</option>
+				
+				<option value="file19">vk/server/wrapper.go (50.0%)</option>
+				
+				<option value="file20">vk/verify/verify.go (13.9%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package app
+
+import (
+        "net/http"
+)
+
+type APIError struct {
+        Status  int    `json:"status"`
+        Message string `json:"message"`
+}
+
+func (e APIError) Error() string <span class="cov8" title="1">{
+        return e.Message
+}</span>
+
+func (e APIError) APIError() (int, string) <span class="cov0" title="0">{
+        return e.Status, e.Message
+}</span>
+
+var (
+        ErrAuth       = &amp;APIError{Status: http.StatusUnauthorized, Message: "invalid token"}
+        ErrNotFound   = &amp;APIError{Status: http.StatusNotFound, Message: "not found"}
+        ErrBadRequest = &amp;APIError{Status: http.StatusBadRequest, Message: "bad request"}
+        ErrDuplicate  = &amp;APIError{Status: http.StatusBadRequest, Message: "duplicate"}
+
+        ErrActorNotFound = &amp;APIError{Status: http.StatusNotFound, Message: "actor not found"}
+        ErrFilmNotFound  = &amp;APIError{Status: http.StatusNotFound, Message: "film not found"}
+
+        ErrActorConflict = &amp;APIError{Status: http.StatusConflict, Message: "actor already exist"}
+        ErrActorDelete   = &amp;APIError{Status: http.StatusNoContent, Message: "delete success"}
+
+        ErrFilmConflict = &amp;APIError{Status: http.StatusConflict, Message: "film already exist"}
+        ErrUserConflict = &amp;APIError{Status: http.StatusConflict, Message: "user already exist"}
+
+        ErrCreated = &amp;APIError{Status: http.StatusCreated, Message: "success created"}
+
+        ErrSignUp = &amp;APIError{Status: http.StatusCreated, Message: "failed signup"}
+
+        ErrUnauthorized    = &amp;APIError{Status: http.StatusUnauthorized, Message: "failed singin"}
+        ErrSuccessUpdate   = &amp;APIError{Status: http.StatusCreated, Message: "update success"}
+        ErrNotConcretActor = &amp;APIError{Status: http.StatusBadRequest, Message: "not concrect actor"}
+
+        ErrBadPassword = &amp;APIError{Status: http.StatusUnauthorized, Message: "bad password sorry"}
+
+        ErrCookies = &amp;APIError{Status: http.StatusBadRequest, Message: "bad cookies"}
+)
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package main
+
+import (
+        "context"
+        "log"
+        "net/http"
+        "os"
+        "os/signal"
+        "syscall"
+        "time"
+        "vk/config"
+        "vk/database"
+        "vk/server"
+)
+
+//@title FilmsLibrary
+//@version 1.0
+//@description API Server for FilmsLibrary
+//@host localhost:8001
+//@BasePath /
+
+func main() <span class="cov0" title="0">{
+
+        config, err := config.Read("config.yml")
+        if err != nil </span><span class="cov0" title="0">{
+                log.Fatalf("config read failed: %v", err)
+        }</span>
+
+        <span class="cov0" title="0">db, err := database.New(config.Database)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Fatalf("failed create database: %v", err)
+        }</span>
+
+        <span class="cov0" title="0">db.InitDb()
+
+        server := server.NewAPIServer(config.Server, *db)
+
+        ctx, cancel := context.WithCancel(context.Background())
+        defer cancel()
+
+        // Создание канала для получения сигнала завершения работы
+        quit := make(chan os.Signal, 1)
+        signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
+
+        // Ожидание сигнала завершения работы
+        go func() </span><span class="cov0" title="0">{
+                sig := &lt;-quit
+                log.Printf("Received signal: %v", sig)
+                cancel()
+        }</span>()
+
+        // Запуск сервера
+        <span class="cov0" title="0">go func() </span><span class="cov0" title="0">{
+                // log.Printf("Server started on port %s", cfg.Server.Port)
+                if err := server.Run(); err != nil &amp;&amp; err != http.ErrServerClosed </span><span class="cov0" title="0">{
+                        log.Fatalf("server error: %v", err)
+                }</span>
+        }()
+
+        // Ожидание сигнала отмены
+        <span class="cov0" title="0">&lt;-ctx.Done()
+
+        // Завершение работы сервера
+        log.Println("Shutting down server...")
+
+        // Создание контекста с таймаутом для graceful shutdown
+        shutdownCtx, shutdownCancel := context.WithTimeout(context.Background(), 5*time.Second)
+        defer shutdownCancel()
+
+        // Завершение работы сервера с таймаутом
+        if err := server.Shutdown(shutdownCtx); err != nil </span><span class="cov0" title="0">{
+                log.Fatalf("failed to shutdown server: %v", err)
+        }</span>
+
+        <span class="cov0" title="0">log.Println("Server shutdown complete")</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package config
+
+import (
+        "os"
+
+        "gopkg.in/yaml.v2"
+)
+
+type Config struct {
+        Database Database `yaml:"database"`
+        Server   Server   `yaml:"server"`
+}
+
+type Database struct {
+        Host     string `yaml:"host"`
+        Port     int    `yaml:"port"`
+        Username string `yaml:"username"`
+        Password string `yaml:"password"`
+        DBName   string `yaml:"dbname"`
+}
+
+type Server struct {
+        Host string `yaml:"host"`
+        Port string `yaml:"port"`
+}
+
+func Read(filename string) (*Config, error) <span class="cov8" title="1">{
+        data, err := os.ReadFile(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">var config Config
+        err = yaml.Unmarshal(data, &amp;config)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">return &amp;config, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package database
+
+import (
+        "context"
+        "errors"
+        "log"
+        "strconv"
+        "vk/app"
+        "vk/model"
+
+        "github.com/jackc/pgx/v5"
+)
+
+func (db DB) PostActor(req model.Actor) error <span class="cov8" title="1">{
+
+        actor, err := db.GetActor(req)
+        if err != nil &amp;&amp; !errors.Is(err, app.ErrActorNotFound) </span><span class="cov8" title="1">{
+                log.Println("err:PostActor:GetActor:", err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">if actor != nil </span><span class="cov0" title="0">{
+                log.Println("err:PostActor:ActorConflict:", actor)
+                return app.ErrActorConflict
+        }</span>
+
+        <span class="cov0" title="0">query := "INSERT INTO actors (name, gender, birthday) VALUES ($1, $2, $3)"
+
+        ctx := context.Background()
+        _, err = db.pool.Exec(ctx, query, req.Name, req.Gender, req.Birthday)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("err:PostActor:Exec:", err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">log.Println("sussess:PostActor", req)
+        log.Println(query)
+        log.Println(req)
+        return nil</span>
+}
+
+func (db DB) GetActor(req model.Actor) (*model.Actor, error) <span class="cov8" title="1">{
+        var actor model.Actor
+        query := "SELECT name, gender, birthday FROM actors WHERE 1=1"
+        values := []interface{}{}
+        if req.Name != "" </span><span class="cov8" title="1">{
+                query += " AND name = $1"
+                values = append(values, req.Name)
+        }</span>
+        <span class="cov8" title="1">if req.Gender != "" </span><span class="cov8" title="1">{
+                query += " AND gender = $2"
+                values = append(values, req.Gender)
+        }</span>
+        <span class="cov8" title="1">if !req.Birthday.IsZero() </span><span class="cov8" title="1">{
+                query += " AND birthday = $3"
+                values = append(values, req.Birthday)
+        }</span>
+        <span class="cov8" title="1">query += " LIMIT 1"
+        ctx := context.Background()
+        row := db.pool.QueryRow(ctx, query, values...)
+        err := row.Scan(&amp;actor.Name, &amp;actor.Gender, &amp;actor.Birthday)
+        if err != nil </span><span class="cov8" title="1">{
+                log.Println("err:GetActor:", err)
+                if err.Error() == pgx.ErrNoRows.Error() </span><span class="cov0" title="0">{
+                        return nil, app.ErrActorNotFound
+                }</span>
+                <span class="cov8" title="1">return nil, err</span>
+        }
+
+        <span class="cov0" title="0">log.Println("sussess:GetActor", actor)
+        log.Println(query)
+        log.Println(values...)
+        return &amp;actor, nil</span>
+}
+
+func (db DB) UpdateActor(req model.ActorUpdate) error <span class="cov0" title="0">{
+        var actor model.Actor
+
+        actor.Name = req.Name
+        actor.Gender = req.Gender
+        actor.Birthday = req.Birthday
+
+        _, err := db.GetActor(actor)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("err:UpdateActor:GetActor:", err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">query := "UPDATE actors SET"
+        values := []interface{}{}
+        var i int = 1
+
+        if req.Update.Gender != "" </span><span class="cov0" title="0">{
+                query += " gender = $" + strconv.Itoa(i)
+                values = append(values, req.Update.Gender)
+                i++
+        }</span>
+
+        <span class="cov0" title="0">if !req.Update.Birthday.IsZero() </span><span class="cov0" title="0">{
+                if i != 1 </span><span class="cov0" title="0">{
+                        query += ", birthday = $" + strconv.Itoa(i)
+                }</span> else<span class="cov0" title="0"> {
+                        query += " birthday = $" + strconv.Itoa(i)
+                }</span>
+                <span class="cov0" title="0">values = append(values, req.Update.Birthday)
+                i++</span>
+        }
+
+        <span class="cov0" title="0">if req.Update.Name != "" </span><span class="cov0" title="0">{
+                if i != 1 </span><span class="cov0" title="0">{
+                        query += ", name = $" + strconv.Itoa(i)
+                }</span> else<span class="cov0" title="0"> {
+                        query += " name = $" + strconv.Itoa(i)
+                }</span>
+                <span class="cov0" title="0">values = append(values, req.Update.Name)
+                i++</span>
+        }
+
+        <span class="cov0" title="0">query += " WHERE name = $" + strconv.Itoa(i)
+        values = append(values, req.Name)
+
+        if i == 1 </span><span class="cov0" title="0">{
+                log.Println("err:UpdateActor:i == 1:", err)
+                return app.ErrBadRequest
+        }</span>
+
+        <span class="cov0" title="0">ctx := context.Background()
+        _, err = db.pool.Exec(ctx, query, values...)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("err:UpdateActor:Exec:", err)
+                return err
+        }</span>
+        <span class="cov0" title="0">log.Println("sussess query UpdateActor:", req.Name)
+        log.Println(query)
+        log.Println(values...)
+        return nil</span>
+}
+
+func (db DB) DeleteActor(req model.Actor) error <span class="cov0" title="0">{
+        _, err := db.GetActor(req)
+        if err != nil &amp;&amp; errors.Is(err, app.ErrActorNotFound) </span><span class="cov0" title="0">{
+                log.Println("err:DeleteActor:GetActor:", err)
+                return err
+        }</span>
+        <span class="cov0" title="0">if errors.Is(err, app.ErrActorNotFound) </span><span class="cov0" title="0">{
+                log.Println("err:DeleteActor:ErrActorNotFound:", err)
+                return app.ErrActorNotFound
+        }</span>
+
+        <span class="cov0" title="0">query := "DELETE FROM actors WHERE 1=1"
+        values := []interface{}{}
+        var i int = 1
+
+        if req.Name != "" </span><span class="cov0" title="0">{
+                query += " AND name = $1"
+                values = append(values, req.Name)
+                i++
+        }</span>
+        <span class="cov0" title="0">if req.Gender != "" </span><span class="cov0" title="0">{
+                query += " AND gender = $2"
+                values = append(values, req.Gender)
+        }</span>
+        <span class="cov0" title="0">if !req.Birthday.IsZero() </span><span class="cov0" title="0">{
+                query += " AND birthday = $3"
+                values = append(values, req.Birthday)
+        }</span>
+
+        <span class="cov0" title="0">ctx := context.Background()
+        _, err = db.pool.Exec(ctx, query, values...)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("err:DeleteActor:Exec:", err)
+                return err
+        }</span>
+        <span class="cov0" title="0">log.Println("sussess query DeleteActor:", req.Name)
+        log.Println(query)
+        log.Println(values...)
+        return nil</span>
+}
+
+func (db DB) GetActors(req model.Actor, offset string) ([]model.Actor, error) <span class="cov0" title="0">{
+
+        var actors []model.Actor
+
+        query := "SELECT name, gender, birthday FROM actors WHERE 1=1"
+
+        values := make([]interface{}, 0)
+        var i int = 1
+
+        if req.Name != "" </span><span class="cov0" title="0">{
+                query += " AND name ILIKE '%' || $" + strconv.Itoa(i) + " || '%'"
+                values = append(values, req.Name)
+                i++
+        }</span>
+
+        <span class="cov0" title="0">if req.Gender != "" </span><span class="cov0" title="0">{
+                query += " AND gender = LOWER($2)"
+                values = append(values, req.Gender)
+                i++
+        }</span>
+
+        <span class="cov0" title="0">if !req.Birthday.IsZero() </span><span class="cov0" title="0">{
+                query += " AND birthday LIKE $3"
+                values = append(values, req.Birthday)
+                i++
+        }</span>
+
+        <span class="cov0" title="0">query += " LIMIT " + offset
+
+        ctx := context.Background()
+        rows, err := db.pool.Query(ctx, query, values...)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("err:GetActors:Query:", err)
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">defer rows.Close()
+
+        for rows.Next() </span><span class="cov0" title="0">{
+                var actor model.Actor
+                err = rows.Scan(&amp;actor.Name, &amp;actor.Gender, &amp;actor.Birthday)
+                if err != nil </span><span class="cov0" title="0">{
+                        log.Println("err:GetActors:Scan:", err)
+                        return nil, err
+                }</span>
+                <span class="cov0" title="0">actors = append(actors, actor)</span>
+
+        }
+        <span class="cov0" title="0">if err := rows.Err(); err != nil </span><span class="cov0" title="0">{
+                log.Println("err:GetActors:Rows:", err)
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">if len(actors) == 0 </span><span class="cov0" title="0">{
+                log.Println("err:GetActors:len(actors):", app.ErrActorNotFound)
+                return nil, app.ErrActorNotFound
+        }</span>
+
+        <span class="cov0" title="0">log.Println("sussess:GetActors")
+        log.Println(query)
+        log.Println(values...)
+        return actors, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package database
+
+import (
+        "context"
+        "log"
+        "vk/app"
+        "vk/model"
+)
+
+
+func (db DB) SignIn(req model.Credentials) (*model.User, error) <span class="cov0" title="0">{
+
+        query := "SELECT * FROM users WHERE username = $1"
+
+        ctx := context.Background()
+        row := db.pool.QueryRow(ctx, query, req.Username)
+        var u model.User
+
+        if err := row.Scan(&amp;u.ID, &amp;u.Name, &amp;u.Password, &amp;u.Role); err != nil </span><span class="cov0" title="0">{
+                log.Println("[-]err:SignIn:Scan:", err)
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">if req.Password != u.Password </span><span class="cov0" title="0">{
+                log.Println("[-]err:SignIn:req.Password != u.Password:", req.Password, u.Password)
+                return nil, app.ErrBadPassword
+        }</span>
+
+        <span class="cov0" title="0">log.Println("[+]sussess:SignIn", req.Username)
+        return &amp;u, nil</span>
+}
+
+func (db DB) SignUp(req model.Credentials) error <span class="cov0" title="0">{
+
+        exist, err := db.UserExist(req.Username)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("[-]err:SignUp:UserExist:", err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">if exist </span><span class="cov0" title="0">{
+                log.Println("[-]err:SignUp:UserConflict:", req.Username)
+                return app.ErrUserConflict
+        }</span>
+
+        <span class="cov0" title="0">log.Println(req.Username, req.Password)
+        query := "INSERT INTO users(username, password, role) VALUES ($1, $2, 'User')"
+
+        ctx := context.Background()
+        _, err = db.pool.Exec(ctx, query, req.Username, req.Password)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("[-]err:SignUp:Exec:", err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">log.Println("[+]sussess:SignUp", req.Username)
+        return nil</span>
+}
+
+func (db DB) SignUpAdministrator(req model.Credentials) error <span class="cov0" title="0">{
+
+        exist, err := db.UserExist(req.Username)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("[-]err:SignUpAdministrator:UserExist:", err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">if exist </span><span class="cov0" title="0">{
+                log.Println("[-]err:SignUpAdministrator:UserConflict:", req.Username)
+                return app.ErrUserConflict
+        }</span>
+
+        <span class="cov0" title="0">query := "INSERT INTO users(username, password, role) VALUES ($1, $2, 'admin')"
+
+        ctx := context.Background()
+        _, err = db.pool.Exec(ctx, query, req.Username, req.Password)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("[-]err:SignUpAdministrator:Exec:", err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">log.Println("[+]sussess:SignUpAdministrator", req.Username)
+        return app.ErrCreated</span>
+}
+
+func (db DB) User(user string) (*model.User, error) <span class="cov0" title="0">{
+
+        query := "SELECT * FROM users WHERE username = $1"
+
+        ctx := context.Background()
+        row := db.pool.QueryRow(ctx, query, user)
+        var u model.User
+
+        if err := row.Scan(&amp;u.ID, &amp;u.Name, &amp;u.Password, &amp;u.Role); err != nil </span><span class="cov0" title="0">{
+                log.Println("[-]err:User:Scan:", err)
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">log.Println("[+]sussess:User", user)
+        return &amp;u, nil</span>
+}
+
+func (db DB) UserExist(user string) (bool, error) <span class="cov0" title="0">{
+        query := "SELECT COUNT(*) FROM users WHERE username = $1"
+        ctx := context.Background()
+
+        var count int
+        err := db.pool.QueryRow(ctx, query, user).Scan(&amp;count)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("[-]err:UserExist:QueryRow:", err)
+                return false, err
+        }</span>
+        <span class="cov0" title="0">log.Println("[+]sussess:UserExist", user)
+        return count &gt; 0, nil</span>
+}
+
+func (db DB) DeleteUser(req model.Credentials) error <span class="cov0" title="0">{
+
+        query := "DELETE * FROM users WHERE username = $1"
+
+        ctx := context.Background()
+        _, err := db.pool.Exec(ctx, query, req.Username)
+
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("[-]err:DeleteUser:Exec", req.Username, err)
+        }</span>
+        <span class="cov0" title="0">log.Println("[+]sussess:DeleteUser", req.Username)
+        return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package database
+
+import (
+        "context"
+        "database/sql"
+        "errors"
+        "log"
+        "strconv"
+        "strings"
+        "vk/app"
+        "vk/model"
+
+        "github.com/jackc/pgx"
+)
+
+func (db DB) CreateFilm(film *model.Film) error <span class="cov8" title="1">{
+
+        existingFilm, err := db.GetFilmByFilmName(film)
+        if err != nil </span><span class="cov8" title="1">{
+                if !errors.Is(err, app.ErrFilmNotFound) </span><span class="cov8" title="1">{
+                        log.Println("err:CreateFilm:DB:GetFilm:", err)
+                        return err
+
+                }</span>
+        }
+
+        <span class="cov0" title="0">if existingFilm == nil </span><span class="cov0" title="0">{
+                query := `INSERT INTO films (name, description, date, rate) VALUES ($1, $2, $3, $4) ON CONFLICT DO NOTHING RETURNING id`
+                err := db.pool.QueryRow(context.Background(), query, film.Name, film.Desc, film.Date.Format("2006-01-02"), film.Rate).Scan(&amp;film.ID)
+                if err != nil </span><span class="cov0" title="0">{
+                        log.Println("err:CreateFilm:DB:QueryRow:", err)
+                        return err
+                }</span>
+        } else<span class="cov0" title="0"> {
+                return app.ErrFilmConflict
+        }</span>
+
+        <span class="cov0" title="0">for _, actorName := range film.Actors </span><span class="cov0" title="0">{
+                var actorID int
+                err := db.pool.QueryRow(context.Background(), `SELECT id FROM actors WHERE name = $1`, actorName.Name).Scan(&amp;actorID)
+                if err != nil </span><span class="cov0" title="0">{
+                        log.Println("err:CreateFilm:DB:QueryRow:", err)
+                        return err
+                }</span>
+
+                <span class="cov0" title="0">_, err = db.pool.Exec(context.Background(), `INSERT INTO actor_film (actor_id, film_id) VALUES ($1, $2)`, actorID, film.ID)
+                if err != nil </span><span class="cov0" title="0">{
+                        log.Println("err:CreateFilm:DB:Exec:", err)
+                        return err
+                }</span>
+        }
+
+        <span class="cov0" title="0">log.Println("success:CreateFilm", film)
+        return app.ErrCreated</span>
+}
+
+func (db DB) GetFilmByFilmName(film *model.Film) (*model.Film, error) <span class="cov8" title="1">{
+        log.Println("starting GetFilm")
+        query := `
+                SELECT f.id, f.name, f.description, f.date, f.rate, array_agg(a.name) as actors
+                FROM films f
+                LEFT JOIN actor_film af ON f.id = af.film_id
+                LEFT JOIN actors a ON af.actor_id = a.id
+                WHERE f.name=$1
+                GROUP BY f.id, f.name, f.description, f.date, f.rate;
+        `
+
+        row := db.pool.QueryRow(context.Background(), query, film.Name)
+        var foundFilm model.Film
+        var actors []string
+        var date sql.NullTime
+        if err := row.Scan(&amp;foundFilm.ID, &amp;foundFilm.Name, &amp;foundFilm.Desc, &amp;date, &amp;foundFilm.Rate, &amp;actors); err != nil </span><span class="cov8" title="1">{
+
+                if err.Error() == pgx.ErrNoRows.Error() </span><span class="cov0" title="0">{
+                        log.Println("err:GetFilm:NoRows:", err)
+                        return nil, app.ErrFilmNotFound
+                }</span>
+
+                <span class="cov8" title="1">log.Println("err:GetFilm:Scan:")
+                return nil, err</span>
+        }
+
+        <span class="cov0" title="0">log.Println(actors)
+        if date.Valid </span><span class="cov0" title="0">{
+                foundFilm.Date = model.NewCustomDate(date.Time)
+        }</span>
+
+        <span class="cov0" title="0">foundFilm.Actors = []model.Actor{}
+
+        for _, actorName := range actors </span><span class="cov0" title="0">{
+
+                actor := model.Actor{Name: actorName}
+                foundFilm.Actors = append(foundFilm.Actors, actor)
+        }</span>
+
+        <span class="cov0" title="0">log.Println("success:GetFilm", foundFilm)
+        return &amp;foundFilm, nil</span>
+}
+
+func (db DB) GetFilmsByActor(actor *model.Actor) ([]model.Film, error) <span class="cov8" title="1">{
+        log.Println("starting GetFilmsByActor")
+        query := `
+        SELECT f.id, f.name, f.description, f.date, f.rate, a.name as actor_name
+        FROM films f
+        INNER JOIN actor_film af ON f.id = af.film_id
+        INNER JOIN actors a ON af.actor_id = a.id
+        WHERE a.name ILIKE %($1)%
+    `
+
+        log.Println("GetFilmsByActor:query,values", query, actor.Name)
+
+        rows, err := db.pool.Query(context.Background(), query, actor.Name)
+        if err != nil </span><span class="cov8" title="1">{
+                log.Println("err:GetFilmsByActor:Query:", err)
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">defer rows.Close()
+
+        films := make([]model.Film, 0)
+        actorSet := make(map[int]bool)
+
+        for rows.Next() </span><span class="cov0" title="0">{
+                var film model.Film
+                var date sql.NullTime
+                var actorName string
+                err := rows.Scan(&amp;film.ID, &amp;film.Name, &amp;film.Desc, &amp;date, &amp;film.Rate, &amp;actorName)
+                if err != nil </span><span class="cov0" title="0">{
+                        log.Println("err:GetFilmsByActor:Scan:", err)
+                        return nil, err
+                }</span>
+
+                <span class="cov0" title="0">if date.Valid </span><span class="cov0" title="0">{
+                        film.Date = model.NewCustomDate(date.Time)
+                }</span>
+
+                <span class="cov0" title="0">if !actorSet[film.ID] </span><span class="cov0" title="0">{
+                        films = append(films, film)
+                        actorSet[film.ID] = true
+                }</span>
+        }
+
+        <span class="cov0" title="0">if err := rows.Err(); err != nil </span><span class="cov0" title="0">{
+                log.Println("err:GetFilmsByActor:Rows:", err)
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">log.Println("success:GetFilmsByActor", len(films), "films found for actor", actor)
+        return films, nil</span>
+}
+
+// func (db DB) GetFilm(film *model.Film) (*model.Film, error) {
+
+//         query := "SELECT * FROM films WHERE 1=1"
+
+//         values := make([]interface{}, 0)
+//         var i int = 1
+
+//         if film.Name != "" {
+//                 query += " AND name ILIKE '%' || $" + strconv.Itoa(i) + " || '%'"
+//                 values = append(values, film.Name)
+//                 i++
+//         }
+
+//         if film.Desc != "" {
+//                 query += " AND description ILIKE $" + strconv.Itoa(i)
+//                 values = append(values, film.Desc)
+//                 i++
+//         }
+
+//         if !film.Date.IsZero() {
+//                 log.Println(film.Date)
+//                 query += " AND date &gt;= $" + strconv.Itoa(i)
+//                 values = append(values, film.Date)
+//                 i++
+//         }
+
+//         if film.Rate != 0 {
+//                 query += " AND rate &gt;= $" + strconv.Itoa(i)
+//                 values = append(values, film.Rate)
+//                 i++
+//         }
+
+//         if len(film.Actors) &gt; 0 {
+//                 actorsConditions := []string{}
+//                 for _, actor := range film.Actors {
+//                         actorsConditions = append(actorsConditions, "$"+strconv.Itoa(i)+" = ANY(actors)")
+//                         values = append(values, actor)
+//                         i++
+//                 }
+
+//                 actorsQuery := "(" + strings.Join(actorsConditions, " OR ") + ")"
+
+//                 query += " AND " + actorsQuery
+//         }
+
+//         query += " LIMIT 1"
+
+//         args := []interface{}{film.Name, film.Desc, film.Date, film.Rate}
+//         for _, actor := range film.Actors {
+//                 args = append(args, actor)
+//         }
+
+//         var foundFilm model.Film
+
+//         row := db.pool.QueryRow(context.Background(), query, values...)
+
+//         var date sql.NullTime
+//         if err := row.Scan(new(interface{}), &amp;foundFilm.Name, &amp;foundFilm.Desc, &amp;date, &amp;foundFilm.Rate, &amp;foundFilm.Actors); err != nil {
+//                 if err == pgx.ErrNoRows {
+//                         log.Println("err:GetFilm:NoRows:", err)
+//                         return nil, app.ErrFilmNotFound
+//                 }
+
+//                 log.Println("err:GetFilm:Scan:", err)
+//                 return nil, err
+//         }
+
+//         if date.Valid {
+//                 foundFilm.Date = model.NewCustomDate(date.Time)
+//         }
+
+//         log.Println("sussess:GetFilm", foundFilm)
+//         log.Println(query)
+//         log.Println(args)
+//         return &amp;foundFilm, nil
+// }
+
+func (db DB) DeleteFilm(film *model.Film) error <span class="cov0" title="0">{
+        film, err := db.GetFilmByFilmName(film)
+        if err != nil </span><span class="cov0" title="0">{
+
+                if errors.Is(err, app.ErrFilmNotFound) </span><span class="cov0" title="0">{
+                        log.Println("err:DeleteFilm:FilmNotFound:", err)
+                        return app.ErrFilmNotFound
+                }</span>
+
+                <span class="cov0" title="0">log.Println("err:DeleteFilm:GetFilm:", err)
+                return err</span>
+        }
+
+        <span class="cov0" title="0">query := "DELETE FROM films WHERE 1=1"
+
+        values := make([]interface{}, 0)
+        var i int = 1
+
+        if film.Name != "" </span><span class="cov0" title="0">{
+                query += " AND name = '%' || $" + strconv.Itoa(i) + " || '%'"
+                values = append(values, film.Name)
+                i++
+        }</span>
+
+        <span class="cov0" title="0">if film.Desc != "" </span><span class="cov0" title="0">{
+                query += " AND description ILIKE $" + strconv.Itoa(i)
+                values = append(values, film.Desc)
+                i++
+        }</span>
+
+        <span class="cov0" title="0">if !film.Date.IsZero() </span><span class="cov0" title="0">{
+                log.Println(film.Date)
+                query += " AND date = $" + strconv.Itoa(i)
+                values = append(values, film.Date)
+                i++
+        }</span>
+
+        <span class="cov0" title="0">if film.Rate != 0 </span><span class="cov0" title="0">{
+                query += " AND rate = $" + strconv.Itoa(i)
+                values = append(values, film.Rate)
+                i++
+        }</span>
+
+        <span class="cov0" title="0">ctx := context.Background()
+        _, err = db.pool.Exec(ctx, query, values...)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("err:DeleteFilm:Exec:", err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">log.Println("sussess:DeleteFilm:", film.Name)
+        log.Println(query)
+        log.Println(values...)
+        return nil</span>
+}
+
+func (db DB) GetFilms(film *model.Film, offset string, sort string, order bool) ([]model.Film, error) <span class="cov0" title="0">{
+
+        query := "SELECT * FROM films WHERE 1=1"
+
+        values := make([]interface{}, 0)
+        var i int = 1
+
+        if film.Name != "" </span><span class="cov0" title="0">{
+                query += " AND name ILIKE '%' || $" + strconv.Itoa(i) + " || '%'"
+                values = append(values, film.Name)
+                i++
+        }</span>
+
+        <span class="cov0" title="0">if film.Desc != "" </span><span class="cov0" title="0">{
+                query += " AND description ILIKE $" + strconv.Itoa(i)
+                values = append(values, film.Desc)
+                i++
+        }</span>
+
+        <span class="cov0" title="0">if !film.Date.IsZero() </span><span class="cov0" title="0">{
+                log.Println(film.Date)
+                query += " AND date &gt;= $" + strconv.Itoa(i)
+                values = append(values, film.Date)
+                i++
+        }</span>
+
+        <span class="cov0" title="0">if film.Rate != 0 </span><span class="cov0" title="0">{
+                query += " AND rate &gt;= $" + strconv.Itoa(i)
+                values = append(values, film.Rate)
+                i++
+        }</span>
+
+        <span class="cov0" title="0">if len(film.Actors) &gt; 0 </span><span class="cov0" title="0">{
+                actorsConditions := []string{}
+                for _, actor := range film.Actors </span><span class="cov0" title="0">{
+                        actorsConditions = append(actorsConditions, "$"+strconv.Itoa(i)+" = ANY(actors)")
+                        values = append(values, actor)
+                        i++
+                }</span>
+
+                <span class="cov0" title="0">actorsQuery := "(" + strings.Join(actorsConditions, " OR ") + ")"
+
+                query += " AND " + actorsQuery</span>
+        }
+
+        <span class="cov0" title="0">if sort == "" </span><span class="cov0" title="0">{
+                query += " ORDER BY rate DESC"
+        }</span> else<span class="cov0" title="0"> {
+                query += " ORDER BY " + sort
+                if order </span><span class="cov0" title="0">{
+                        query += " DESC"
+                }</span> else<span class="cov0" title="0"> {
+                        query += " ASC"
+                }</span>
+        }
+
+        <span class="cov0" title="0">query += " LIMIT " + offset
+
+        args := []interface{}{film.Name, film.Desc, film.Date, film.Rate}
+        for _, actor := range film.Actors </span><span class="cov0" title="0">{
+                args = append(args, actor)
+        }</span>
+
+        <span class="cov0" title="0">rows, err := db.pool.Query(context.Background(), query, values...)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("err:GetFilms:Query:", err)
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">defer rows.Close()
+
+        var foundFilms []model.Film
+
+        for rows.Next() </span><span class="cov0" title="0">{
+                var foundFilm model.Film
+                var date sql.NullTime
+                if err := rows.Scan(new(interface{}), &amp;foundFilm.Name, &amp;foundFilm.Desc, &amp;date, &amp;foundFilm.Rate, &amp;foundFilm.Actors); err != nil </span><span class="cov0" title="0">{
+                        log.Println("err:GetFilms:Scan:", err)
+                        return nil, err
+                }</span>
+                <span class="cov0" title="0">if date.Valid </span><span class="cov0" title="0">{
+
+                        foundFilm.Date = model.NewCustomDate(date.Time)
+                }</span>
+                <span class="cov0" title="0">foundFilms = append(foundFilms, foundFilm)</span>
+        }
+
+        <span class="cov0" title="0">if len(foundFilms) == 0 </span><span class="cov0" title="0">{
+                log.Println("err:GetFilms:len(foundFilms) == 0:", err)
+                return nil, app.ErrFilmNotFound
+        }</span>
+
+        <span class="cov0" title="0">log.Println("sussess:GetFilms", foundFilms)
+        log.Println(query)
+        log.Println(args)
+        return foundFilms, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package database
+
+import (
+        "context"
+        "log"
+)
+
+func (db DB) InitDb() <span class="cov0" title="0">{
+
+        ctx := context.Background()
+        _, err := db.pool.Exec(ctx, `
+                CREATE TABLE IF NOT EXISTS actors (
+                        id SERIAL PRIMARY KEY,
+                        name VARCHAR(100) NOT NULL,
+                        gender VARCHAR(10) NOT NULL,
+                        birthday DATE NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS films (
+                        id SERIAL PRIMARY KEY,
+                        name TEXT NOT NULL,
+                        description TEXT,
+                        date TIMESTAMP,
+                        rate NUMERIC
+                );
+
+                CREATE TABLE IF NOT EXISTS actor_film (
+                        actor_id INT REFERENCES actors(id),
+                        film_id INT REFERENCES films(id),
+                        PRIMARY KEY (actor_id, film_id)
+                );
+
+                CREATE TABLE IF NOT EXISTS users (
+                        id SERIAL PRIMARY KEY,
+                        username TEXT NOT NULL,
+                        password TEXT NOT NULL,
+                        role TEXT NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS sessions (
+                        id SERIAL PRIMARY KEY,
+                        username TEXT NOT NULL,
+                        token  TEXT NOT NULL,
+                        role TEXT NOT NULL,
+                        created_at TIMESTAMP,
+                        expired_at TIMESTAMP
+                );
+
+                
+
+        `)
+
+        if err != nil </span><span class="cov0" title="0">{
+                log.Fatal("failed init db",err)
+        }</span>
+
+        <span class="cov0" title="0">var adminExists bool
+        
+        err = db.pool.QueryRow(ctx, "SELECT EXISTS(SELECT 1 FROM users WHERE username = 'admin')").Scan(&amp;adminExists)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Fatalf("failed to check admin existence: %v", err)
+        }</span>
+
+        <span class="cov0" title="0">if !adminExists </span><span class="cov0" title="0">{
+                log.Println("creating a new admin")
+                _, err := db.pool.Exec(ctx, "INSERT INTO users (username, password, role) VALUES ('admin', 'admin123', 'admin')")
+                if err != nil </span><span class="cov0" title="0">{
+                        log.Fatalf("failed to create admin: %v", err)
+                }</span>
+        }
+
+        <span class="cov0" title="0">var Gleb bool
+        err = db.pool.QueryRow(ctx, "SELECT EXISTS(SELECT 1 FROM users WHERE username = 'Gleb')").Scan(&amp;Gleb)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Fatalf("failed to check admin existence: %v", err)
+        }</span>
+
+        <span class="cov0" title="0">if !Gleb </span><span class="cov0" title="0">{
+                log.Println("creating a new user")
+                _, err := db.pool.Exec(ctx, "INSERT INTO users (username, password, role) VALUES ('Gleb', 'qwerty1234', 'user')")
+                if err != nil </span><span class="cov0" title="0">{
+                        log.Fatalf("failed to create admin: %v", err)
+                }</span>
+        }
+
+
+}
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+// Source: database/database.go
+
+// Package mock_database is a generated GoMock package.
+package mock_database
+
+import (
+        reflect "reflect"
+        time "time"
+        model "vk/model"
+
+        gomock "github.com/golang/mock/gomock"
+)
+
+// MockDBRepository is a mock of DBRepository interface.
+type MockDBRepository struct {
+        ctrl     *gomock.Controller
+        recorder *MockDBRepositoryMockRecorder
+}
+
+// MockDBRepositoryMockRecorder is the mock recorder for MockDBRepository.
+type MockDBRepositoryMockRecorder struct {
+        mock *MockDBRepository
+}
+
+// NewMockDBRepository creates a new mock instance.
+func NewMockDBRepository(ctrl *gomock.Controller) *MockDBRepository <span class="cov0" title="0">{
+        mock := &amp;MockDBRepository{ctrl: ctrl}
+        mock.recorder = &amp;MockDBRepositoryMockRecorder{mock}
+        return mock
+}</span>
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockDBRepository) EXPECT() *MockDBRepositoryMockRecorder <span class="cov0" title="0">{
+        return m.recorder
+}</span>
+
+// CreateFilm mocks base method.
+func (m *MockDBRepository) CreateFilm(req model.Film) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "CreateFilm", req)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// CreateFilm indicates an expected call of CreateFilm.
+func (mr *MockDBRepositoryMockRecorder) CreateFilm(req interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFilm", reflect.TypeOf((*MockDBRepository)(nil).CreateFilm), req)
+}</span>
+
+// CreateSession mocks base method.
+func (m *MockDBRepository) CreateSession(username, token, role string, createdAt, expiresAt time.Time) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "CreateSession", username, token, role, createdAt, expiresAt)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// CreateSession indicates an expected call of CreateSession.
+func (mr *MockDBRepositoryMockRecorder) CreateSession(username, token, role, createdAt, expiresAt interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSession", reflect.TypeOf((*MockDBRepository)(nil).CreateSession), username, token, role, createdAt, expiresAt)
+}</span>
+
+// DeleteFilm mocks base method.
+func (m *MockDBRepository) DeleteFilm(req model.Film) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "DeleteFilm", req)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// DeleteFilm indicates an expected call of DeleteFilm.
+func (mr *MockDBRepositoryMockRecorder) DeleteFilm(req interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFilm", reflect.TypeOf((*MockDBRepository)(nil).DeleteFilm), req)
+}</span>
+
+// DeleteSession mocks base method.
+func (m *MockDBRepository) DeleteSession(sessionToken string) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "DeleteSession", sessionToken)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// DeleteSession indicates an expected call of DeleteSession.
+func (mr *MockDBRepositoryMockRecorder) DeleteSession(sessionToken interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteSession", reflect.TypeOf((*MockDBRepository)(nil).DeleteSession), sessionToken)
+}</span>
+
+// GetActor mocks base method.
+func (m *MockDBRepository) GetActor(req model.Actor) (*model.Actor, error) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "GetActor", req)
+        ret0, _ := ret[0].(*model.Actor)
+        ret1, _ := ret[1].(error)
+        return ret0, ret1
+}</span>
+
+// GetActor indicates an expected call of GetActor.
+func (mr *MockDBRepositoryMockRecorder) GetActor(req interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetActor", reflect.TypeOf((*MockDBRepository)(nil).GetActor), req)
+}</span>
+
+// GetFilm mocks base method.
+func (m *MockDBRepository) GetFilm(req model.Film) (*model.Film, error) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "GetFilm", req)
+        ret0, _ := ret[0].(*model.Film)
+        ret1, _ := ret[1].(error)
+        return ret0, ret1
+}</span>
+
+// GetFilm indicates an expected call of GetFilm.
+func (mr *MockDBRepositoryMockRecorder) GetFilm(req interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFilm", reflect.TypeOf((*MockDBRepository)(nil).GetFilm), req)
+}</span>
+
+// GetFilms mocks base method.
+func (m *MockDBRepository) GetFilms(req model.Film) []model.Film <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "GetFilms", req)
+        ret0, _ := ret[0].([]model.Film)
+        return ret0
+}</span>
+
+// GetFilms indicates an expected call of GetFilms.
+func (mr *MockDBRepositoryMockRecorder) GetFilms(req interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFilms", reflect.TypeOf((*MockDBRepository)(nil).GetFilms), req)
+}</span>
+
+// GetSessionByUsername mocks base method.
+func (m *MockDBRepository) GetSessionByUsername(username string) (*model.Session, error) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "GetSessionByUsername", username)
+        ret0, _ := ret[0].(*model.Session)
+        ret1, _ := ret[1].(error)
+        return ret0, ret1
+}</span>
+
+// GetSessionByUsername indicates an expected call of GetSessionByUsername.
+func (mr *MockDBRepositoryMockRecorder) GetSessionByUsername(username interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSessionByUsername", reflect.TypeOf((*MockDBRepository)(nil).GetSessionByUsername), username)
+}</span>
+
+// PostActor mocks base method.
+func (m *MockDBRepository) PostActor(req model.Actor) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "PostActor", req)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// PostActor indicates an expected call of PostActor.
+func (mr *MockDBRepositoryMockRecorder) PostActor(req interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PostActor", reflect.TypeOf((*MockDBRepository)(nil).PostActor), req)
+}</span>
+
+// SignUp mocks base method.
+func (m *MockDBRepository) SignUp(req model.Credentials) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "SignUp", req)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// SignUp indicates an expected call of SignUp.
+func (mr *MockDBRepositoryMockRecorder) SignUp(req interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SignUp", reflect.TypeOf((*MockDBRepository)(nil).SignUp), req)
+}</span>
+
+// SignUpAdministrator mocks base method.
+func (m *MockDBRepository) SignUpAdministrator(req model.Credentials) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "SignUpAdministrator", req)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// SignUpAdministrator indicates an expected call of SignUpAdministrator.
+func (mr *MockDBRepositoryMockRecorder) SignUpAdministrator(req interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SignUpAdministrator", reflect.TypeOf((*MockDBRepository)(nil).SignUpAdministrator), req)
+}</span>
+
+// UpdateActor mocks base method.
+func (m *MockDBRepository) UpdateActor(req model.ActorUpdate) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "UpdateActor", req)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// UpdateActor indicates an expected call of UpdateActor.
+func (mr *MockDBRepositoryMockRecorder) UpdateActor(req interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateActor", reflect.TypeOf((*MockDBRepository)(nil).UpdateActor), req)
+}</span>
+
+// UserExist mocks base method.
+func (m *MockDBRepository) UserExist(username string) (bool, error) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "UserExist", username)
+        ret0, _ := ret[0].(bool)
+        ret1, _ := ret[1].(error)
+        return ret0, ret1
+}</span>
+
+// UserExist indicates an expected call of UserExist.
+func (mr *MockDBRepositoryMockRecorder) UserExist(username interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserExist", reflect.TypeOf((*MockDBRepository)(nil).UserExist), username)
+}</span>
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package database
+
+import (
+        "context"
+        "fmt"
+        "log"
+        "time"
+        "vk/config"
+        "vk/model"
+
+        _ "database/sql"
+
+        "github.com/jackc/pgx/v5/pgxpool"
+)
+
+type ActorRepository interface {
+        PostActor(req model.Actor) error
+        GetActor(req model.Actor) (*model.Actor, error)
+        UpdateActor(req model.ActorUpdate) error
+}
+
+type FilmRepository interface {
+        GetFilm(req model.Film) (*model.Film, error)
+        GetFilms(req model.Film) []model.Film
+        CreateFilm(req model.Film) error
+        DeleteFilm(req model.Film) error
+}
+
+type AuthRepository interface {
+        SignIn(req model.Credentials) (*model.User, error)
+        SignUp(req model.Credentials) error
+        SignUpAdministrator(req model.Credentials) error
+        User(req model.Credentials) (*model.User, error)
+        UserExist(req model.Credentials) (bool, error)
+        DeleteUser(req model.Credentials) error
+}
+
+type SessionsRepository interface {
+        CreateSession(username string, token string, role string, createdAt time.Time, expiresAt time.Time) error
+        GetSessionByUsername(username string) (*model.Session, error)
+        DeleteSession(sessionToken string) error
+}
+
+type DB struct {
+        pool *pgxpool.Pool
+        cfg  config.Database
+}
+
+func New(cfg config.Database) (*DB, error) <span class="cov8" title="1">{
+
+        DATABASE_URL := fmt.Sprintf("host=%s port=%d user=%s "+
+                "password=%s dbname=%s sslmode=disable",
+                cfg.Host, cfg.Port, cfg.Username, cfg.Password, cfg.DBName)
+
+        ctx := context.Background()
+
+        dbpool, err := pgxpool.New(ctx, DATABASE_URL)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Fatal("err:", err)
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">if err := dbpool.Ping(ctx); err != nil </span><span class="cov0" title="0">{
+                log.Fatal("err:", err)
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">return &amp;DB{
+                pool: dbpool,
+                cfg:  cfg,
+        }, nil</span>
+
+}
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package logger
+
+import (
+        "os"
+
+        "github.com/sirupsen/logrus"
+)
+
+func New() *logrus.Logger <span class="cov0" title="0">{
+        return &amp;logrus.Logger{
+                Out:       os.Stderr,
+                Formatter: new(logrus.TextFormatter),
+                Hooks:     make(logrus.LevelHooks),
+                Level:     logrus.DebugLevel,
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package model
+
+import (
+        "encoding/json"
+        "strings"
+        "time"
+)
+
+type Actor struct {
+        Name     string    `json:"name"`
+        Gender   string    `json:"gender,omitempty"`
+        Birthday time.Time `json:"birthday,omitempty"`
+}
+
+func (a *Actor) UnmarshalJSON(b []byte) error <span class="cov8" title="1">{
+        type alias Actor
+        d := struct {
+                *alias
+        }{
+                alias: (*alias)(a),
+        }
+
+        if err := json.Unmarshal(b, &amp;d); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">a.Gender = strings.ToLower(a.Gender)
+
+        return nil</span>
+}
+
+type ActorUpdate struct {
+        Name     string    `json:"name"`
+        Gender   string    `json:"gender,omitempty"`
+        Birthday time.Time `json:"birthday,omitempty"`
+        Update   Actor     `json:"updateq"`
+}
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package model
+
+import "time"
+
+type Film struct {
+        ID     int
+        Name   string     `json:"name"`
+        Desc   string     `json:"desc"`
+        Date   CustomDate `json:"date"`
+        Rate   float32    `json:"rate"`
+        Actors []Actor    `json:"actors"`
+}
+
+type Films struct {
+        Films  []Film
+        Offset int
+}
+
+type CustomDate struct {
+        time.Time
+}
+
+func (d *CustomDate) UnmarshalJSON(data []byte) error <span class="cov0" title="0">{
+
+        trimmed := string(data[1 : len(data)-1])
+
+        parsedDate, err := time.Parse("2006-01-02", trimmed)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov0" title="0">d.Time = parsedDate
+
+        return nil</span>
+}
+
+func NewCustomDate(t time.Time) CustomDate <span class="cov8" title="1">{
+        return CustomDate{t}
+}</span>
+</pre>
+		
+		<pre class="file" id="file12" style="display: none">package model
+
+import "time"
+
+type Credentials struct {
+        Username string `json:"username"`
+        Password string `json:"password"`
+}
+
+type Session struct {
+        User      string
+        Token     string
+        Role      string
+        CreatedAt time.Time
+        ExpiresAt time.Time
+}
+
+type SessionToken string
+
+func (s *Session) IsExpired() bool <span class="cov0" title="0">{
+        return time.Now().After(s.ExpiresAt)
+}</span>
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">package server
+
+import (
+        "encoding/json"
+        "errors"
+        "log"
+        "net/http"
+        "vk/app"
+        "vk/model"
+        "vk/verify"
+)
+
+func (s APIServer) GetActorHandler(w http.ResponseWriter, r *http.Request) interface{} <span class="cov0" title="0">{
+        var req model.Actor
+        err := json.NewDecoder(r.Body).Decode(&amp;req)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov0" title="0">if !verify.ActorModel(&amp;req) </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov0" title="0">actor, err := s.repo.GetActor(req)
+        if err != nil </span><span class="cov0" title="0">{
+                if errors.Is(err, app.ErrActorNotFound) </span><span class="cov0" title="0">{
+                        return err
+                }</span> else<span class="cov0" title="0"> {
+                        return err
+                }</span>
+        }
+        <span class="cov0" title="0">return actor</span>
+}
+
+func (s APIServer) PostActorHandler(w http.ResponseWriter, r *http.Request) interface{} <span class="cov8" title="1">{
+        var req model.Actor
+        err := json.NewDecoder(r.Body).Decode(&amp;req)
+        if err != nil </span><span class="cov0" title="0">{
+                return app.ErrBadRequest
+        }</span>
+        <span class="cov8" title="1">if !verify.ActorModel(&amp;req) </span><span class="cov8" title="1">{
+                return app.ErrBadRequest
+        }</span>
+
+        <span class="cov0" title="0">err = s.repo.PostActor(req)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("start != nil", err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">return app.ErrCreated</span>
+}
+
+func (s APIServer) PatchActorHandler(w http.ResponseWriter, r *http.Request) interface{} <span class="cov8" title="1">{
+        var req model.ActorUpdate
+        err := json.NewDecoder(r.Body).Decode(&amp;req)
+        if err != nil </span><span class="cov0" title="0">{
+        log.Println("decode != nil", err)
+                return app.ErrBadRequest
+        }</span>
+
+        <span class="cov8" title="1">if !verify.ActorUpdateModel(&amp;req) </span><span class="cov8" title="1">{
+                return app.ErrBadRequest
+        }</span>
+        <span class="cov0" title="0">log.Println("updateactot", req)
+        err = s.repo.UpdateActor(req)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov0" title="0">return app.ErrSuccessUpdate</span>
+}
+
+func (s APIServer) DeleteActorHandler(w http.ResponseWriter, r *http.Request) interface{} <span class="cov8" title="1">{
+        var req model.Actor
+        err := json.NewDecoder(r.Body).Decode(&amp;req)
+        if err != nil </span><span class="cov0" title="0">{
+                return app.ErrBadRequest
+        }</span>
+        <span class="cov8" title="1">if !verify.ActorModel(&amp;req) </span><span class="cov8" title="1">{
+                return app.ErrBadRequest
+        }</span>
+        <span class="cov8" title="1">err = s.repo.DeleteActor(req)
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov0" title="0">return app.ErrActorDelete</span>
+}
+
+
+func (s APIServer) GetActorsHandler(w http.ResponseWriter, r *http.Request) interface{} <span class="cov0" title="0">{
+        var req model.Actor
+        err := json.NewDecoder(r.Body).Decode(&amp;req)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov0" title="0">if !verify.ActorModel(&amp;req) </span><span class="cov0" title="0">{
+                return app.ErrBadRequest
+        }</span>
+
+        <span class="cov0" title="0">offsetStr := r.URL.Query().Get("offset")
+        offset := verify.Offset(offsetStr)
+
+        sort := r.URL.Query().Get("sort")
+        if sort != "rate" &amp;&amp; sort != "date" &amp;&amp; sort != "name" &amp;&amp; sort != "" </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov0" title="0">actors, err := s.repo.GetActors(req, offset)
+        if err != nil </span><span class="cov0" title="0">{
+                if errors.Is(err, app.ErrActorNotFound) </span><span class="cov0" title="0">{
+                        return app.ErrActorNotFound
+                }</span>
+                <span class="cov0" title="0">return app.ErrBadRequest</span>
+        }
+        <span class="cov0" title="0">return actors</span>
+}
+
+</pre>
+		
+		<pre class="file" id="file14" style="display: none">package server
+
+import (
+        "encoding/json"
+        "log"
+        "net/http"
+        "time"
+        "vk/app"
+        "vk/model"
+        "vk/verify"
+
+        "github.com/google/uuid"
+)
+
+func (s APIServer) SignUp(w http.ResponseWriter, r *http.Request) interface{} <span class="cov8" title="1">{
+
+        var cred model.Credentials
+
+        err := json.NewDecoder(r.Body).Decode(&amp;cred)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">if !verify.Creds(cred) </span><span class="cov8" title="1">{
+                return app.ErrBadPassword
+        }</span>
+        <span class="cov8" title="1">if err = s.repo.SignUp(cred); err != nil </span><span class="cov8" title="1">{
+                return app.AlreadExist
+        }</span>
+
+        <span class="cov0" title="0">return app.SuccessCreated</span>
+}
+
+func (s APIServer) SignUpAdmin(w http.ResponseWriter, r *http.Request) interface{} <span class="cov0" title="0">{
+
+        var cred model.Credentials
+
+        err := json.NewDecoder(r.Body).Decode(&amp;cred)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov0" title="0">log.Println(cred)
+
+        if !verify.Creds(cred) </span><span class="cov0" title="0">{
+                return app.ErrBadPassword
+        }</span>
+
+        <span class="cov0" title="0">if err = s.repo.SignUp(cred); err != nil </span><span class="cov0" title="0">{
+                return app.ErrSignUp
+        }</span>
+
+        <span class="cov0" title="0">log.Println(cred)
+
+        return nil</span>
+}
+
+func (s APIServer) SignIn(w http.ResponseWriter, r *http.Request) interface{} <span class="cov8" title="1">{
+        log.Println("income creed", r.Body)
+        var creds model.Credentials
+
+        // body, _ := io.ReadAll(r.Body)
+        // log.Printf("[ReadAll] %s ", body)
+
+        err := json.NewDecoder(r.Body).Decode(&amp;creds)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("try sign in decode", err, creds)
+                return err
+        }</span>
+
+        <span class="cov8" title="1">if !verify.Creds(creds) </span><span class="cov0" title="0">{
+                log.Println("try sign in verify creds", creds)
+                return app.ErrBadPassword
+        }</span>
+        <span class="cov8" title="1">log.Println("try sign in")
+        user, err := s.repo.SignIn(creds)
+
+        if err != nil </span><span class="cov8" title="1">{
+                if err == app.ErrBadPassword </span><span class="cov0" title="0">{
+                        log.Println("err:app.ErrBadPassword:", err)
+                        return app.ErrUnauthorized
+                }</span>
+                <span class="cov8" title="1">if user == nil </span><span class="cov8" title="1">{
+                        log.Println("err:user == nil:", err)
+                        return app.ErrNotFound
+                }</span>
+
+                <span class="cov0" title="0">log.Println("err:s.repo.SignIn(creds):", err)
+                return app.ErrBadRequest</span>
+
+        }
+
+        <span class="cov0" title="0">sessionToken := uuid.NewString()
+        expiredAt := time.Now().Add(15 * time.Minute)
+
+        http.SetCookie(w, &amp;http.Cookie{
+                Name:    "session_token",
+                Value:   sessionToken,
+                Expires: expiredAt,
+        })
+
+        SessionsCache[sessionToken] = model.Session{
+                User:      user.Name,
+                Token:     sessionToken,
+                Role:      user.Role,
+                CreatedAt: time.Now(),
+                ExpiresAt: expiredAt,
+        }
+        log.Println("succes created token", sessionToken)
+        return app.SucceesSignIn</span>
+}
+
+func (s APIServer) DeleteUser(w http.ResponseWriter, r *http.Request) interface{} <span class="cov0" title="0">{
+
+        var cred model.Credentials
+
+        err := json.NewDecoder(r.Body).Decode(&amp;cred)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov0" title="0">if !verify.Creds(cred) </span><span class="cov0" title="0">{
+                return app.ErrBadPassword
+        }</span>
+        <span class="cov0" title="0">if err = s.repo.DeleteUser(cred); err != nil </span><span class="cov0" title="0">{
+                return app.ErrNotFound
+        }</span>
+
+        <span class="cov0" title="0">return app.SussessDelete</span>
+}
+</pre>
+		
+		<pre class="file" id="file15" style="display: none">package server
+
+import (
+        "encoding/json"
+        "log"
+        "net/http"
+        "strconv"
+        "vk/model"
+        "vk/verify"
+)
+
+func (s APIServer) GetFilm(w http.ResponseWriter, r *http.Request) interface{} <span class="cov0" title="0">{
+        var req model.Film
+        err := json.NewDecoder(r.Body).Decode(&amp;req)
+        if err != nil </span><span class="cov0" title="0">{
+                http.Error(w, err.Error(), http.StatusBadRequest)
+                return nil
+        }</span>
+        <span class="cov0" title="0">if !verify.FilmModel(&amp;req) </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // NEED TO CHECK IS TO FILM OR DATA
+        <span class="cov0" title="0">res, err := s.repo.GetFilmByFilmName(&amp;req)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("APIServer:GetFilm:err:", err)
+                return err
+        }</span>
+        <span class="cov0" title="0">log.Println("APIServer:GetFilm:success:", req.Name)
+        return res</span>
+}
+
+func (s APIServer) PostFilm(w http.ResponseWriter, r *http.Request) interface{} <span class="cov0" title="0">{
+        var req model.Film
+        err := json.NewDecoder(r.Body).Decode(&amp;req)
+        if err != nil </span><span class="cov0" title="0">{
+                http.Error(w, err.Error(), http.StatusBadRequest)
+                return nil
+        }</span>
+        <span class="cov0" title="0">if !verify.FilmModel(&amp;req) </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov0" title="0">err = s.repo.CreateFilm(&amp;req)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("APIServer:PostFilm:err:", err)
+                return err
+        }</span>
+        <span class="cov0" title="0">log.Println("APIServer:PostFilm:success:", req.Name)
+        return err</span>
+}
+
+func (s APIServer) DeleteFilm(w http.ResponseWriter, r *http.Request) interface{} <span class="cov0" title="0">{
+        var req model.Film
+        err := json.NewDecoder(r.Body).Decode(&amp;req)
+        if err != nil </span><span class="cov0" title="0">{
+                http.Error(w, err.Error(), http.StatusBadRequest)
+                return nil
+        }</span>
+        <span class="cov0" title="0">if !verify.FilmModel(&amp;req) </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov0" title="0">err = s.repo.DeleteFilm(&amp;req)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("APIServer:DeleteFilm:success:")
+                return err
+        }</span>
+        <span class="cov0" title="0">log.Println("APIServer:DeleteFilm:NoContent:")
+        return http.StatusNoContent</span>
+
+}
+
+func (s APIServer) GetFilms(w http.ResponseWriter, r *http.Request) interface{} <span class="cov0" title="0">{
+        var req model.Film
+
+        err := json.NewDecoder(r.Body).Decode(&amp;req)
+        if err != nil </span><span class="cov0" title="0">{
+
+                return http.StatusBadRequest
+        }</span>
+        <span class="cov0" title="0">if !verify.FilmModel(&amp;req) </span><span class="cov0" title="0">{
+
+                return err
+        }</span>
+
+        <span class="cov0" title="0">offsetStr := r.URL.Query().Get("offset")
+        offset := verify.Offset(offsetStr)
+
+        sort := r.URL.Query().Get("sort")
+        if sort != "rate" &amp;&amp; sort != "date" &amp;&amp; sort != "name" &amp;&amp; sort != "" </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov0" title="0">order := r.URL.Query().Get("order")
+        asc := true
+        if order != "" </span><span class="cov0" title="0">{
+                if order != "1" &amp;&amp; order != "0" &amp;&amp; order != "true" &amp;&amp; order != "false" </span><span class="cov0" title="0">{
+                        return http.StatusBadRequest
+                }</span>
+
+                <span class="cov0" title="0">asc, err = strconv.ParseBool(order)
+                if err != nil </span><span class="cov0" title="0">{
+                        return http.StatusBadRequest
+                }</span>
+        }
+
+        <span class="cov0" title="0">res, err := s.repo.GetFilms(&amp;req, offset, sort, asc)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("APIServer:GetFilms:err:", err)
+                return err
+        }</span>
+        <span class="cov0" title="0">log.Println("APIServer:GetFilms:success:", res)
+        return res</span>
+}
+</pre>
+		
+		<pre class="file" id="file16" style="display: none">package server
+
+import (
+        "io"
+        "log"
+        "net/http"
+        "strings"
+        "time"
+        "vk/app"
+        "vk/model"
+)
+
+type Logger struct {
+        handler http.Handler
+}
+
+func wrapLogger(handlerToWrap http.Handler) *Logger <span class="cov0" title="0">{
+        return &amp;Logger{handlerToWrap}
+}</span>
+
+func (l *Logger) ServeHTTP(w http.ResponseWriter, r *http.Request) <span class="cov0" title="0">{
+        start := time.Now()
+
+        body, err := io.ReadAll(r.Body)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("error reading request body:", err)
+                http.Error(w, "internal server error", http.StatusInternalServerError)
+                return
+        }</span>
+
+        <span class="cov0" title="0">r.Body = io.NopCloser(strings.NewReader(string(body)))
+        log.Printf("[request] %s %s %s", r.Method, r.URL.Path, body)
+        l.handler.ServeHTTP(w, r)
+        log.Printf("[metric] %s %s %v", r.Method, r.URL.Path, time.Since(start))</span>
+}
+
+type EnsureAuth struct {
+        handler http.Handler
+}
+
+func GetAuthenticatedUser(r *http.Request) (*model.Session, error) <span class="cov0" title="0">{
+        body, _ := io.ReadAll(r.Body)
+
+        c, err := r.Cookie("session_token")
+        if err != nil </span><span class="cov0" title="0">{
+
+                if err == http.ErrNoCookie </span><span class="cov0" title="0">{
+                        log.Printf("[-][no cookie] %s %s %s", r.Method, r.URL.Path, body)
+                        return nil, app.ErrCookies
+                }</span>
+                <span class="cov0" title="0">log.Printf("[-][auth] %s %s %s", r.Method, r.URL.Path, body)
+                return nil, app.ErrBadRequest</span>
+        }
+
+        <span class="cov0" title="0">sessionToken := c.Value
+        userSession, exists := SessionsCache[sessionToken]
+
+        if !exists </span><span class="cov0" title="0">{
+                log.Printf("[-][cookie][exists] %s %s %s", r.Method, r.URL.Path, body)
+                return nil, app.ErrCookies
+        }</span>
+
+        <span class="cov0" title="0">if userSession.IsExpired() </span><span class="cov0" title="0">{
+                delete(SessionsCache, sessionToken)
+                return nil, app.ErrCookies
+        }</span>
+
+        <span class="cov0" title="0">log.Println("succes auth checked token")
+        return &amp;userSession, nil</span>
+}
+
+func (ea *EnsureAuth) ServeHTTP(w http.ResponseWriter, r *http.Request) <span class="cov0" title="0">{
+        session, err := GetAuthenticatedUser(r)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("[session] bad cookie", r.Method, r.URL.Path)
+                http.Error(w, "not authorized, please signin", http.StatusUnauthorized)
+                return
+        }</span>
+
+        <span class="cov0" title="0">if session.Role == "admin" </span><span class="cov0" title="0">{
+                log.Println("[admin] continue admin role", r.Method, r.URL.Path)
+                ea.handler.ServeHTTP(w, r)
+        }</span>
+
+        <span class="cov0" title="0">if session.Role == "user" </span><span class="cov0" title="0">{
+                if r.Method != "GET" </span><span class="cov0" title="0">{
+                        log.Println("[user] not permissioned method", r.Method, r.URL.Path)
+                        http.Error(w, "no permission", http.StatusForbidden)
+                        return
+                }</span>
+
+                <span class="cov0" title="0">ea.handler.ServeHTTP(w, r)</span>
+        }
+
+}
+
+func NewEnsureAuth(handlerToWrap http.Handler) *EnsureAuth <span class="cov8" title="1">{
+        return &amp;EnsureAuth{handlerToWrap}
+}</span>
+
+type AdminMiddleware struct {
+        handler http.Handler
+}
+
+func NewAdminMiddleware(handlerToWrap http.Handler) *AdminMiddleware <span class="cov8" title="1">{
+        return &amp;AdminMiddleware{handlerToWrap}
+}</span>
+
+func (ea *AdminMiddleware) ServeHTTP(w http.ResponseWriter, r *http.Request) <span class="cov0" title="0">{
+        session, err := GetAuthenticatedUser(r)
+        if err != nil </span><span class="cov0" title="0">{
+                http.Error(w, "please sign-in", http.StatusUnauthorized)
+                return
+        }</span>
+
+        <span class="cov0" title="0">if session.Role != "admin" </span><span class="cov0" title="0">{
+                http.Error(w, "access forbidden", http.StatusForbidden)
+                return
+        }</span>
+
+        <span class="cov0" title="0">ea.handler.ServeHTTP(w, r)</span>
+
+}
+</pre>
+		
+		<pre class="file" id="file17" style="display: none">package server
+
+import (
+        "context"
+        "log"
+        "net/http"
+        "time"
+        "vk/config"
+        "vk/database"
+        "vk/model"
+)
+
+type Server interface {
+        Shutdown(ctx context.Context) error
+}
+
+type UserService interface {
+        GetActorHandler(http.ResponseWriter, *http.Request) interface{}
+}
+
+// AdminService определяет интерфейс для сервиса, доступного администраторам.
+type AdminService interface {
+        GetActorHandler(http.ResponseWriter, *http.Request) interface{}
+        PostActorHandler(http.ResponseWriter, *http.Request) interface{}
+        PatchActorHandler(http.ResponseWriter, *http.Request) interface{}
+        DeleteActorHandler(http.ResponseWriter, *http.Request) interface{}
+}
+
+type APIServer struct {
+        cfg          config.Server
+        repo         database.DB
+        router       *http.ServeMux
+        server       *http.Server
+        sessionsCache map[string]model.Session
+}
+
+func NewAPIServer(cfg config.Server, repo database.DB) *APIServer <span class="cov8" title="1">{
+
+        apiServer := &amp;APIServer{
+                cfg:         cfg,
+                repo:        repo,
+                router:      http.NewServeMux(),
+                sessionsCache: *NewSessionsCache(),
+        }
+
+        apiServer.router.Handle("/api/v1/", NewEnsureAuth(apiServer.NewAPIRouter()))
+        apiServer.router.Handle("/admin/", NewAdminMiddleware(apiServer.NewAdminAuthRouter()))
+        apiServer.router.Handle("/", apiServer.NewAuthRouter())
+
+        return apiServer
+}</span>
+
+func (s *APIServer) Run() error <span class="cov0" title="0">{
+        s.server = &amp;http.Server{
+                Addr:    ":" + s.cfg.Port,
+                Handler: wrapLogger(s.router),
+        }
+
+        log.Println("[!] server started at", time.Now().Format("2006/01/02 15:04:05"), "on port:", s.cfg.Port)
+        return http.ListenAndServe(":"+s.cfg.Port, wrapLogger(s.router))
+}</span>
+
+func (s *APIServer) Shutdown(ctx context.Context) error <span class="cov0" title="0">{
+        return s.server.Shutdown(ctx)
+}</span>
+
+func (s APIServer) NewAuthRouter() *http.ServeMux <span class="cov8" title="1">{
+        r := http.NewServeMux()
+
+        r.HandleFunc("/signup", func(w http.ResponseWriter, r *http.Request) </span><span class="cov0" title="0">{
+                switch r.Method </span>{
+                case http.MethodPost:<span class="cov0" title="0">
+                        wrapHandleFunc(s.SignUp)(w, r)</span>
+                default:<span class="cov0" title="0">
+                        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)</span>
+                }
+        })
+
+        <span class="cov8" title="1">r.HandleFunc("/signin", func(w http.ResponseWriter, r *http.Request) </span><span class="cov0" title="0">{
+                switch r.Method </span>{
+                case http.MethodPost:<span class="cov0" title="0">
+                        wrapHandleFunc(s.SignIn)(w, r)</span>
+                default:<span class="cov0" title="0">
+                        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)</span>
+                }
+        })
+
+        <span class="cov8" title="1">return r</span>
+}
+
+func (s APIServer) NewAdminAuthRouter() *http.ServeMux <span class="cov8" title="1">{
+        r := http.NewServeMux()
+        // админский хендлер умеет удалять пользователей и регистрировать новых админов
+        r.HandleFunc("/admin/signup", func(w http.ResponseWriter, r *http.Request) </span><span class="cov0" title="0">{
+                switch r.Method </span>{
+                case http.MethodPost:<span class="cov0" title="0">
+                        wrapHandleFunc(s.SignUpAdmin)(w, r)</span>
+                default:<span class="cov0" title="0">
+                        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)</span>
+                }
+        })
+
+        <span class="cov8" title="1">r.HandleFunc("/admin/user", func(w http.ResponseWriter, r *http.Request) </span><span class="cov0" title="0">{
+                switch r.Method </span>{
+                case http.MethodDelete:<span class="cov0" title="0">
+                        wrapHandleFunc(s.DeleteUser)(w, r)</span>
+                default:<span class="cov0" title="0">
+                        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)</span>
+                }
+        })
+
+        <span class="cov8" title="1">return r</span>
+}
+
+func (s APIServer) NewAPIRouter() *http.ServeMux <span class="cov8" title="1">{
+        r := http.NewServeMux()
+
+        r.HandleFunc("/api/v1/actors", func(w http.ResponseWriter, r *http.Request) </span><span class="cov0" title="0">{
+                switch r.Method </span>{
+                case http.MethodGet:<span class="cov0" title="0">
+                        wrapHandleFunc(s.GetActorsHandler)(w, r)</span>
+                default:<span class="cov0" title="0">
+                        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)</span>
+                }
+        })
+
+        <span class="cov8" title="1">r.HandleFunc("/api/v1/actor", func(w http.ResponseWriter, r *http.Request) </span><span class="cov0" title="0">{
+                switch r.Method </span>{
+                case http.MethodGet:<span class="cov0" title="0">
+                        wrapHandleFunc(s.GetActorHandler)(w, r)</span>
+                case http.MethodPost:<span class="cov0" title="0">
+                        wrapHandleFunc(s.PostActorHandler)(w, r)</span>
+                case http.MethodPatch:<span class="cov0" title="0">
+                        wrapHandleFunc(s.PatchActorHandler)(w, r)</span>
+                case http.MethodDelete:<span class="cov0" title="0">
+                        wrapHandleFunc(s.DeleteActorHandler)(w, r)</span>
+                default:<span class="cov0" title="0">
+                        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)</span>
+                }
+        })
+
+        <span class="cov8" title="1">r.HandleFunc("/api/v1/film", func(w http.ResponseWriter, r *http.Request) </span><span class="cov0" title="0">{
+                switch r.Method </span>{
+                case http.MethodGet:<span class="cov0" title="0">
+                        wrapHandleFunc(s.GetFilm)(w, r)</span>
+                case http.MethodPost:<span class="cov0" title="0">
+                        wrapHandleFunc(s.PostFilm)(w, r)</span>
+                case http.MethodDelete:<span class="cov0" title="0">
+                        wrapHandleFunc(s.DeleteFilm)(w, r)</span>
+                default:<span class="cov0" title="0">
+                        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)</span>
+                }
+        })
+
+        <span class="cov8" title="1">r.HandleFunc("/api/v1/films", func(w http.ResponseWriter, r *http.Request) </span><span class="cov0" title="0">{
+                switch r.Method </span>{
+                case http.MethodGet:<span class="cov0" title="0">
+                        wrapHandleFunc(s.GetFilms)(w, r)</span>
+                default:<span class="cov0" title="0">
+                        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)</span>
+                }
+        })
+
+        <span class="cov8" title="1">return r</span>
+}
+</pre>
+		
+		<pre class="file" id="file18" style="display: none">package server
+
+import "vk/model"
+
+var SessionsCache = map[string]model.Session{}
+
+func NewSessionsCache() *map[string]model.Session <span class="cov8" title="1">{ return &amp;SessionsCache }</span>
+</pre>
+		
+		<pre class="file" id="file19" style="display: none">package server
+
+import (
+        "encoding/json"
+        "log"
+        "net/http"
+        "reflect"
+        "vk/app"
+        "vk/model"
+)
+
+type apiFunc func(http.ResponseWriter, *http.Request) interface{}
+
+func wrapHandleFunc(f apiFunc) http.HandlerFunc <span class="cov8" title="1">{
+        return func(w http.ResponseWriter, r *http.Request) </span><span class="cov8" title="1">{
+                err := f(w, r)
+                if err != nil </span><span class="cov8" title="1">{
+                        WriteJSON(w, err)
+                }</span>
+
+        }
+}
+
+func WriteJSON(w http.ResponseWriter, v interface{}) <span class="cov8" title="1">{
+        w.Header().Add("Content-Type", "application/json")
+        log.Println("WriteJSON", v, reflect.TypeOf(v))
+        switch t := v.(type) </span>{
+
+        case model.Actor:<span class="cov0" title="0">
+                w.WriteHeader(http.StatusOK)
+                json.NewEncoder(w).Encode(t)</span>
+
+        case *model.Actor:<span class="cov0" title="0">
+                w.WriteHeader(http.StatusOK)
+                json.NewEncoder(w).Encode(t)</span>
+
+        case []model.Actor:<span class="cov0" title="0">
+                w.WriteHeader(http.StatusOK)
+                json.NewEncoder(w).Encode(t)</span>
+
+        case *model.Film:<span class="cov0" title="0">
+                w.WriteHeader(http.StatusOK)
+                json.NewEncoder(w).Encode(t)</span>
+
+        case []model.Film:<span class="cov0" title="0">
+                w.WriteHeader(http.StatusOK)
+                json.NewEncoder(w).Encode(t)</span>
+
+        case model.Credentials:<span class="cov0" title="0">
+                w.WriteHeader(http.StatusOK)
+                json.NewEncoder(w).Encode(t)</span>
+
+        case *app.APIError:<span class="cov8" title="1">
+                w.WriteHeader(t.Status)
+                json.NewEncoder(w).Encode(t)</span>
+
+        case *app.APIMessage:<span class="cov8" title="1">
+                log.Println("*app.APIMessage", t, t.Status)
+                w.WriteHeader(t.Status)
+                json.NewEncoder(w).Encode(t)</span>
+
+        case error:<span class="cov8" title="1">
+                w.WriteHeader(http.StatusBadRequest)
+                json.NewEncoder(w).Encode("some internal error")</span>
+
+        default:<span class="cov0" title="0">
+                log.Println("unknown type", reflect.TypeOf(v))
+                json.NewEncoder(w).Encode("unknown error")</span>
+        }
+
+}
+</pre>
+		
+		<pre class="file" id="file20" style="display: none">package verify
+
+import (
+        "log"
+        "regexp"
+        "strconv"
+        "time"
+        "vk/model"
+)
+
+func Actor(s string) bool <span class="cov8" title="1">{
+        re := regexp.MustCompile(`^[a-zA-Zа-яА-Я ]+$`)
+        log.Println(re.MatchString(s))
+        return re.MatchString(s)
+}</span>
+
+func Gender(s string) bool <span class="cov8" title="1">{
+        return s == "male" || s == "female" || s == ""
+}</span>
+
+func Birthday(t time.Time) time.Time <span class="cov0" title="0">{
+        layout := "2006-01-02"
+        dateString := t.Format(layout)
+        newTime, err := time.Parse(layout, dateString)
+        if err != nil </span><span class="cov0" title="0">{
+                return time.Time{}
+        }</span>
+        <span class="cov0" title="0">return newTime</span>
+}
+
+func ActorsModel(actors []model.Actor) bool <span class="cov0" title="0">{
+        for _, actor := range actors </span><span class="cov0" title="0">{
+                if !Actor(actor.Name) </span><span class="cov0" title="0">{
+                        return false
+                }</span>
+                <span class="cov0" title="0">if !Gender(actor.Gender) </span><span class="cov0" title="0">{
+                        return false
+                }</span>
+                <span class="cov0" title="0">actor.Birthday = Birthday(actor.Birthday)</span>
+
+        }
+        <span class="cov0" title="0">return true</span>
+}
+
+func ActorModel(actor *model.Actor) bool <span class="cov0" title="0">{
+        if !Actor(actor.Name) </span><span class="cov0" title="0">{
+                log.Println("actor failed here", actor.Name)
+                return false
+        }</span>
+        <span class="cov0" title="0">if !Gender(actor.Gender) </span><span class="cov0" title="0">{
+                log.Println("gender failed")
+                return false
+        }</span>
+        <span class="cov0" title="0">actor.Birthday = Birthday(actor.Birthday)
+        return true</span>
+}
+
+func Film(s string) bool <span class="cov0" title="0">{
+        l := len(s)
+        if l == 0 </span><span class="cov0" title="0">{
+                return true
+        }</span>
+        <span class="cov0" title="0">if l &gt; 150 </span><span class="cov0" title="0">{
+                return false
+        }</span>
+        <span class="cov0" title="0">re := regexp.MustCompile(`^[a-zA-Zа-яА-Я0-9 ]+$`)
+        return re.MatchString(s)</span>
+}
+
+func Desc(s string) bool <span class="cov0" title="0">{
+        return len(s) &lt; 1001
+}</span>
+
+func Rate(rate float32) bool <span class="cov0" title="0">{
+        return rate &gt;= 0 &amp;&amp; rate &lt;= 10
+}</span>
+
+func FilmModel(f *model.Film) bool <span class="cov0" title="0">{
+
+        if !Film(f.Name) </span><span class="cov0" title="0">{
+                log.Println("film failed")
+                return false
+        }</span>
+
+        <span class="cov0" title="0">if !Desc(f.Desc) </span><span class="cov0" title="0">{
+                log.Println("desc failed")
+                return false
+        }</span>
+
+        <span class="cov0" title="0">if !Rate(f.Rate) </span><span class="cov0" title="0">{
+                log.Println("rate failed")
+                return false
+        }</span>
+
+        <span class="cov0" title="0">if !ActorsModel(f.Actors) </span><span class="cov0" title="0">{
+                log.Println("actors failed")
+                return false
+        }</span>
+
+        <span class="cov0" title="0">return true</span>
+}
+
+func Offset(f string) string <span class="cov0" title="0">{
+        if f == "" </span><span class="cov0" title="0">{
+                return "100"
+        }</span>
+        <span class="cov0" title="0">offset, _ := strconv.Atoi(f)
+        if offset &gt;= 100 </span><span class="cov0" title="0">{
+                return "100"
+        }</span>
+        <span class="cov0" title="0">if offset &lt;= 0 </span><span class="cov0" title="0">{
+                return "100"
+        }</span>
+        <span class="cov0" title="0">return f</span>
+}
+
+func ActorUpdateModel(f *model.ActorUpdate) bool <span class="cov0" title="0">{
+
+        if !Actor(f.Name) </span><span class="cov0" title="0">{
+                log.Println("actor failed")
+                return false
+        }</span>
+
+        <span class="cov0" title="0">if len(f.Update.Name) != 0 </span><span class="cov0" title="0">{
+                if !Actor(f.Update.Name) </span><span class="cov0" title="0">{
+                        log.Println("new actor failed")
+
+                        return false
+                }</span>
+        }
+
+        <span class="cov0" title="0">return true</span>
+}
+
+func Creds(creds model.Credentials) bool <span class="cov8" title="1">{
+        if len(creds.Username) == 0 </span><span class="cov0" title="0">{
+                return false
+        }</span>
+
+        <span class="cov8" title="1">if len(creds.Password) &lt; 8 </span><span class="cov0" title="0">{
+                return false
+        }</span>
+
+        <span class="cov8" title="1">re := regexp.MustCompile(`^[a-zA-Zа-яА-Я0-9]+$`)
+        if !re.MatchString(creds.Username) </span><span class="cov0" title="0">{
+                return false
+        }</span>
+
+        <span class="cov8" title="1">re = regexp.MustCompile(`^[a-zA-Zа-яА-Я0-9!@#$]+$`)
+
+        return re.MatchString(creds.Password)</span>
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>

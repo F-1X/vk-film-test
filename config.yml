@@ -1,0 +1,12 @@
+
+server:
+  host: "localhost"
+  port: "8001"
+
+
+database:
+  username: "gleb"
+  password: "passwd"
+  port: 5432
+  dbname: "films"
+  host: "localhost"
